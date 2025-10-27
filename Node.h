@@ -1,4 +1,3 @@
-#include "Bitboard.h"
 #include <vector>
 #include <set>
 #include <cfloat>

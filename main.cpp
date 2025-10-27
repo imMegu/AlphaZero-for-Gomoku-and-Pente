@@ -152,11 +152,44 @@ void test6() {
     cout << "Tie." << endl;
 }
 
+void test7() {
+  MCTS<GomokuBoard<15>> bot(100000u);
+
+  int hmove;
+
+  while (true) {
+    int move = bot.search(true);
+    bot.make_move(move);
+    bot.get_board().printNumbered();
+
+    if (bot.get_board().is_over())
+      break;
+
+    cin >> hmove;
+    bool valid = bot.make_human_move(hmove);
+    while (!valid) {
+      cin >> hmove;
+      valid = bot.make_human_move(hmove);
+    }
+
+    if (bot.get_board().is_over())
+      break;
+  }
+
+  bot.get_board().printNumbered();
+  if (bot.get_board().win(0))
+    cout << "Player1 won." << endl;
+  else if (bot.get_board().win(1))
+    cout << "Player2 won." << endl;
+  else
+    cout << "Tie." << endl;
+}
+
 int main() {
 
   srand(time({})); // Seed the RNG with current time
 
-  test6();
+  test7();
 
   return 0;
 }

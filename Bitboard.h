@@ -115,16 +115,12 @@ public:
         int idx = r * (SIDE + 1) + c;
         cout << '|';
         if (player1.test(idx)) {
-          for (int i = 0; i < magnitude; i++) {
-            if (i == magnitude / 2)
-              cout << 'O';
-            cout << ' ';
+          for (int i = 0; i < magnitude + 1; i++) {
+            cout << "\033[41m \033[0m";
           }
         } else if (player2.test(idx)) {
-          for (int i = 0; i < magnitude; i++) {
-            if (i == magnitude / 2)
-              cout << 'X';
-            cout << ' ';
+          for (int i = 0; i < magnitude + 1; i++) {
+            cout << "\033[43m \033[0m";
           }
         } else {
           int idx = index(r, c);

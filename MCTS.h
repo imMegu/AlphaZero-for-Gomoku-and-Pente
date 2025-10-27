@@ -126,10 +126,32 @@ public:
   uint get_moves() { return moves_made; }
   void set_moves(uint m) { moves_made = m; }
 
-  void make_move(int pos) {
+  bool make_move(int pos) {
     bool valid = board.make_move(pos);
     if (valid)
       moves_made++;
+    else {
+      std::cerr << "Invalid move at position " << pos << endl;
+    }
+    return valid;
+  }
+
+  bool make_human_move(int pos) {
+    /*
+     * When we play botVSbot we can exploit the already expanded tree for the
+     * next bot move (since score is already in relation to whoever's playing).
+     * When a human makes a move it is not guaranteed that said move was already
+     * explored beforehand, so we create a whole new tree.
+     */
+
+    bool valid = board.make_move(pos);
+    if (valid) {
+      moves_made++;
+      root = make_unique<Node>(nullptr, board.player, -1);
+    } else {
+      std::cerr << "Invalid human move at position " << pos << endl;
+    }
+    return valid;
   }
 
   int search(bool verbose = false) {
@@ -234,7 +256,8 @@ public:
 
     if (verbose) {
       cout << "New Visits: " << root->v << endl
-           << "New Score [-1, 1]: " << root->w / root->v << endl
+           << "New Score [-1, 1]: " << root->w / root->v << " | "
+           << ((root->w / root->v) + 1) * 50 << "% Win Chance" << endl
            << "Play made: " << root->m << endl;
     }
 
