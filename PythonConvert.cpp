@@ -11,7 +11,6 @@ namespace py = pybind11;
 int run_mcts_search(int board_size, const std::string &player1,
                     const std::string &player2, int turn_number) {
   // Since board_size is a template parameter, we need to handle different sizes
-  // This is a common approach when board_size varies at runtime
 
   if (board_size == 15) {
     MCTS<GomokuBoard<15>> bot(100000u);
