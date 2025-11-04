@@ -1,4 +1,4 @@
-## README: Gomoku/Pente MCTS Bot
+## Gomoku/Pente MCTS Bot
 
 This project uses a C++ implementation of a Monte Carlo Tree Search (MCTS) algorithm, specialized for Gomoku and Pente, and exposes its core search function to Python using **Pybind11**.
 
@@ -23,15 +23,13 @@ pip install "pybind11[global]"
 
 ### How to Build (Compile C++ to Python Module)
 
-
-
-    ```bash
+    bash
     mkdir build
     cd build
     cmake ..
     cmake --build .
-    ```
-### ▶️ How to Run
+
+### How to Run
 
 Once the `bot` module has been successfully compiled and is located in the root directory, you can run the Python script:
 
