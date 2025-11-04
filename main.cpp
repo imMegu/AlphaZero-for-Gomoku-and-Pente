@@ -18,8 +18,8 @@ void test1() {
               "0000000000000000000000000000000000000001110000000000000000000000"
               "000000000001000100000000001000001000000010101001";
 
-  bot.get_board().setBit1(p1);
-  bot.get_board().setBit2(p2);
+  bot.get_board().setPlayer1(p1);
+  bot.get_board().setPlayer2(p2);
   bot.set_moves(23);
   /*
   bot.get_board().print();
@@ -135,12 +135,12 @@ void test5() { // Filled out board should still have padding zeroes.
 }
 
 void test6() {
-  MCTS<GomokuBoard<15>> bot(100000u);
+  MCTS<GomokuBoard<9>> bot(100000u);
 
   while (!bot.get_board().is_over()) {
     int move = bot.search(true);
     bot.make_move(move);
-    // bot.get_board().printNumbered();
+    bot.get_board().printNumbered();
   }
 
   bot.get_board().printNumbered();
@@ -153,7 +153,7 @@ void test6() {
 }
 
 void test7() {
-  MCTS<GomokuBoard<15>> bot(100000u);
+  MCTS<GomokuBoard<7>> bot(100000u);
 
   int hmove;
 
@@ -165,9 +165,11 @@ void test7() {
     if (bot.get_board().is_over())
       break;
 
+    cout << "Enter your move: ";
     cin >> hmove;
     bool valid = bot.make_human_move(hmove);
     while (!valid) {
+      cout << "Invalid Move, try again: ";
       cin >> hmove;
       valid = bot.make_human_move(hmove);
     }
@@ -185,11 +187,26 @@ void test7() {
     cout << "Tie." << endl;
 }
 
+void play() {
+
+  MCTS<GomokuBoard<3>> bot(100000u);
+
+  string p1 = "011100000001";
+
+  string p2 = "000000000100";
+
+  bot.get_board().setPlayer1(p1);
+  bot.get_board().setPlayer2(p2);
+  bot.set_moves(5);
+  bot.get_board().printNumbered();
+}
+
 int main() {
 
   srand(time({})); // Seed the RNG with current time
 
-  test7();
+  MCTS<GomokuBoard<15>> bot(100u);
+  bot.get_board().printNumbered();
 
   return 0;
 }

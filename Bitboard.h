@@ -24,11 +24,11 @@ public:
 
   static constexpr int index(int r, int c) { return r * (SIDE + 1) + c; }
 
-  void setBit1(string b) {
+  void setPlayer1(string b) {
     bitset<BOARDSIZE> b1(b);
     player1 = b1;
   }
-  void setBit2(string b) {
+  void setPlayer2(string b) {
     bitset<BOARDSIZE> b2(b);
     player2 = b2;
   }
