@@ -29,6 +29,7 @@ class Player:
         # The C++ function returns the chosen move index
         try:
             move = bot.run_mcts_search(
+                self.rules,
                 self.board_size,
                 player1,
                 player2,
@@ -43,7 +44,7 @@ class Player:
             print(f"Error calling C++ MCTS search: {e}")
             return -1, -1
 
-bsize = 7
+bsize = 5
 board = [[0 for _ in range(bsize)] for _ in range(bsize)]
 
 # 1110 0000 1000
@@ -51,8 +52,8 @@ board = [[0 for _ in range(bsize)] for _ in range(bsize)]
 
 turn = 0
 
-p = Player(0, bsize)
-for _ in range(int(bsize * bsize / 2)):
+p = Player(1, bsize)
+for _ in range(int(bsize * bsize)):
 
     #bot play
     while True:
@@ -65,9 +66,30 @@ for _ in range(int(bsize * bsize / 2)):
 
     # random play 
     while True:
-        row = random.randrange(bsize)
-        col = random.randrange(bsize)
-        if board[row][col] == 0:
-            board[row][col] = 2
+        if turn == 1: 
+            board[2][2] = 2
             turn += 1
-            break
+            break;
+        elif turn == 3:
+            board[0][2] = 2
+            turn += 1
+            break;
+        elif turn == 5:
+            board[4][2] = 2 
+            turn += 1
+            break;
+        elif turn == 7:
+            board[2][0] = 2
+            turn += 1
+            break;
+        elif turn == 9:
+            board[2][4] = 2
+            turn += 1
+            break;
+        else:
+            row = random.randrange(bsize)
+            col = random.randrange(bsize)
+            if board[row][col] == 0:
+                board[row][col] = 2
+                turn += 1
+                break
