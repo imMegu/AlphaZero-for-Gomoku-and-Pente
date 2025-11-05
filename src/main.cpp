@@ -39,11 +39,10 @@ void test1() {
 }
 
 void test2() {
-  static constexpr uint i = 32;
-  MCTS<GomokuBoard<i>> bot(10000u);
+  MCTS<GomokuBoard<32>> bot(10000u);
 
-  constexpr uint BOARDSIZE = GomokuBoard<i>::BOARDSIZE;
-  constexpr uint SIDE = GomokuBoard<i>::SIDE;
+  constexpr uint BOARDSIZE = GomokuBoard<32>::BOARDSIZE;
+  constexpr uint SIDE = GomokuBoard<32>::SIDE;
 
   while (bot.get_moves() < 8 * SIDE) {
     int randomNumber = rand() % (BOARDSIZE);
@@ -117,8 +116,7 @@ void test4() {
 }
 
 void test5() { // Filled out board should still have padding zeroes.
-  static constexpr uint i = 25;
-  MCTS<GomokuBoard<i>> bot(10000u);
+  MCTS<GomokuBoard<25>> bot(10000u);
 
   constexpr uint B = GomokuBoard<25>::BOARDSIZE;
   // constexpr uint S = GomokuBoard<25>::SIDE;
@@ -135,7 +133,7 @@ void test5() { // Filled out board should still have padding zeroes.
 }
 
 void test6() {
-  MCTS<GomokuBoard<9>> bot(100000u);
+  MCTS<PenteBoard<6>> bot(100000u);
 
   while (!bot.get_board().is_over()) {
     int move = bot.search(true);
@@ -201,12 +199,35 @@ void play() {
   bot.get_board().printNumbered();
 }
 
+void hvh() {
+  MCTS<PenteBoard<5>> bot(100000u);
+
+  int hmove;
+
+  while (true) {
+    cout << "Enter your move: ";
+    cin >> hmove;
+    bool valid = bot.make_human_move(hmove);
+    while (!valid) {
+      cout << "Invalid Move, try again: ";
+      cin >> hmove;
+      valid = bot.make_human_move(hmove);
+    }
+
+    bot.get_board().printNumbered();
+    cout << "P1 captures: " << bot.get_board().captures1 << endl;
+    cout << "P2 captures: " << bot.get_board().captures2 << endl;
+
+    if (bot.get_board().is_over())
+      break;
+  }
+}
+
 int main() {
 
   srand(time({})); // Seed the RNG with current time
 
-  MCTS<GomokuBoard<15>> bot(100u);
-  bot.get_board().printNumbered();
+  test6();
 
   return 0;
 }

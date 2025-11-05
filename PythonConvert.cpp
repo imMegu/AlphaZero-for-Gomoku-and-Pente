@@ -16,7 +16,7 @@ int run_mcts_search(int board_size, const std::string &player1,
     MCTS<GomokuBoard<15>> bot(100000u);
     bot.get_board().setPlayer1(player1);
     bot.get_board().setPlayer2(player2);
-    bot.get_board().printNumbered();
+    // bot.get_board().printNumbered();
     bot.set_moves(turn_number);
     return bot.search();
   } else if (board_size == 50) {
@@ -24,7 +24,7 @@ int run_mcts_search(int board_size, const std::string &player1,
     bot.get_board().setPlayer1(player1);
     bot.get_board().setPlayer2(player2);
     bot.get_board().printNumbered();
-    bot.set_moves(turn_number);
+    bot.set bot.set_moves(turn_number);
     return bot.search();
   } else if (board_size == 7) {
     MCTS<GomokuBoard<7>> bot(100000u);

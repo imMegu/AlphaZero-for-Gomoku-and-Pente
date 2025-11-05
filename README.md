@@ -23,7 +23,6 @@ pip install "pybind11[global]"
 
 ### How to Build (Compile C++ to Python Module)
 
-    bash
     mkdir build
     cd build
     cmake ..
