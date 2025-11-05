@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/gomoku_test.dir/src/main.cpp.o -o gomoku_test 

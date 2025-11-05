@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -flto -shared  -o /media/henrique/partition/home/LabIACD/p2/bot.cpython-312-x86_64-linux-gnu.so CMakeFiles/bot.dir/PythonConvert.cpp.o  /usr/lib/x86_64-linux-gnu/libpython3.12.so 

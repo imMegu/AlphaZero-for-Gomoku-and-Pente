@@ -5,10 +5,11 @@ class Player:
     def __init__(self, rules, board_size):
         self.rules = rules
         self.board_size = board_size
+    
     def play(self, board, turn_number, last_opponent_move):
-
         player1 = ""
         player2 = ""
+
         for y in range(self.board_size):
             # Add padding before every line
             player1 += "0"
@@ -24,7 +25,6 @@ class Player:
                     player1 += "0"
                     player2 += "1"
 
-
         # Call the C++ function
         # The C++ function returns the chosen move index
         try:
@@ -37,9 +37,13 @@ class Player:
             )
             # Convert index back to (x, y) coordinates
             print(move)
+            if move == -1:
+                return -1, -1
+
             row = (self.board_size - 1 ) - (move // (self.board_size + 1))
             col = move % (self.board_size + 1)
             return col, row
+
         except Exception as e:
             print(f"Error calling C++ MCTS search: {e}")
             return -1, -1
@@ -51,41 +55,50 @@ board = [[0 for _ in range(bsize)] for _ in range(bsize)]
 # 0000 0000 0010
 
 turn = 0
+gameover = False
 
 p = Player(1, bsize)
 for _ in range(int(bsize * bsize)):
 
-    #bot play
+    # bot play
     while True:
         col, row = p.play(board, turn, None)
         print(f"Best move: ({col}, {row})")
+
+        if col == row == -1:
+            gameover = True
+            break
+
         if board[row][col] == 0: # bot is always player1
             board[row][col] = 1
             turn += 1
-            break;
+            break
+
+    if gameover:
+        break
 
     # random play 
     while True:
         if turn == 1: 
             board[2][2] = 2
             turn += 1
-            break;
+            break
         elif turn == 3:
             board[0][2] = 2
             turn += 1
-            break;
+            break
         elif turn == 5:
             board[4][2] = 2 
             turn += 1
-            break;
+            break
         elif turn == 7:
             board[2][0] = 2
             turn += 1
-            break;
+            break
         elif turn == 9:
             board[2][4] = 2
             turn += 1
-            break;
+            break
         else:
             row = random.randrange(bsize)
             col = random.randrange(bsize)

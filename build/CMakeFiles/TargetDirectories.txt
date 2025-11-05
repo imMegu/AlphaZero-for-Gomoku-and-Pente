@@ -1,0 +1,4 @@
+/media/henrique/partition/home/LabIACD/p2/build/CMakeFiles/bot.dir
+/media/henrique/partition/home/LabIACD/p2/build/CMakeFiles/gomoku_test.dir
+/media/henrique/partition/home/LabIACD/p2/build/CMakeFiles/edit_cache.dir
+/media/henrique/partition/home/LabIACD/p2/build/CMakeFiles/rebuild_cache.dir
