@@ -1,5 +1,49 @@
-import bot
+import subprocess
+import os
+import sys
 import random
+import time
+# The 'bot' module import is moved to after the compilation check.
+
+# --- C++ Module Compilation Check ---
+
+MODULE_NAME = "bot"
+BUILD_DIR = "build"
+
+try:
+    # 1. Ensure build directory exists
+    os.makedirs(BUILD_DIR, exist_ok=True)
+    
+    start_time = time.time()
+    
+    print(f"Running: cmake -S . -B {BUILD_DIR}")
+    subprocess.run(
+        ["cmake", "-S", ".", "-B", BUILD_DIR],
+        check=True, # Raise exception on error
+        capture_output=False, 
+        text=True
+    )
+
+    print(f"Running: cmake --build {BUILD_DIR}")
+    subprocess.run(
+        ["cmake", "--build", BUILD_DIR],
+        check=True, # Raise exception on error
+        capture_output=False,
+        text=True
+    )
+    
+    end_time = time.time()
+    print(f"Compilation process finished in {end_time - start_time:.2f} seconds.")
+
+except subprocess.CalledProcessError as e:
+    print("\n--- COMPILATION FAILED ---", file=sys.stderr)
+    print("Could not compile the C++ extension. Please check C++ code and CMakeLists.txt.", file=sys.stderr)
+    sys.exit(1)
+except Exception as e:
+    print(f"An unexpected error occurred during build setup: {e}", file=sys.stderr)
+    sys.exit(1)
+
+import bot
 
 class Player:
     def __init__(self, rules, board_size):
@@ -36,7 +80,6 @@ class Player:
                 turn_number
             )
             # Convert index back to (x, y) coordinates
-            print(move)
             if move == -1:
                 return -1, -1
 
@@ -48,6 +91,8 @@ class Player:
             print(f"Error calling C++ MCTS search: {e}")
             return -1, -1
 
+
+'''
 bsize = 5
 board = [[0 for _ in range(bsize)] for _ in range(bsize)]
 
@@ -106,3 +151,4 @@ for _ in range(int(bsize * bsize)):
                 board[row][col] = 2
                 turn += 1
                 break
+'''

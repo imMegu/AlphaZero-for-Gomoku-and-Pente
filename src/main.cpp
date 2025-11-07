@@ -209,25 +209,29 @@ void hvh() {
 }
 
 void testGenRandomBoard() {
-  PenteBoard<15> board;
+  PenteBoard<50> board;
 
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 15; i++) {
+
     int over = 0;
     int tries = 10000;
+    int percentage_step = 2;
+
     for (int j = 0; j < tries; j++) {
-      auto result = board.genRandomBoard(i * 10);
+      auto result = board.genRandomBoard(i * percentage_step);
       if (result.has_value()) {
-        PenteBoard<15> randomBoard = result.value();
+        PenteBoard<50> randomBoard = result.value();
       } else {
         over++;
       }
     }
-    cout << "Boards that were " << i * 10 << "% filled were over " << over
-         << '/' << tries << " (" << (float(over) / tries) * 100
+
+    cout << "Boards that were " << i * percentage_step << "% filled were over "
+         << over << '/' << tries << " (" << (float(over) / tries) * 100
          << "%) of the time." << endl;
   }
 
-  board.genRandomBoard(101); // should throw runtime_error
+  // board.genRandomBoard(101); // should throw runtime_error
 }
 
 int main() {
