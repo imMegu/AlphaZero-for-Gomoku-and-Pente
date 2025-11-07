@@ -1,5 +1,6 @@
 #pragma once
 #include "Bitboard.h"
+#include <optional>
 
 template <uint S> struct PenteBoard : public Bitboard<S> {
 public:
@@ -97,5 +98,28 @@ public:
     b.captures1 = this->captures1;
     b.captures2 = this->captures2;
     return b;
+  }
+
+  optional<PenteBoard> genRandomBoard(int threshold) {
+    // Threshold should be 0-100, representing a percentage
+    if (threshold < 0 || threshold > 100)
+      throw runtime_error("Threshold should be between 0-100%.");
+
+    int possible_moves = S * S;
+    int moves_made = 0;
+
+    PenteBoard newBoard;
+
+    while (threshold > (int)((double(moves_made) / possible_moves) * 100)) {
+      int move = rand() % (S * S);
+      bool valid = newBoard.make_move(move);
+      if (valid)
+        moves_made++;
+    }
+
+    if (newBoard.is_over())
+      return nullopt;
+
+    return newBoard;
   }
 };

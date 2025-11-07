@@ -1,8 +1,10 @@
 #pragma once
 #include <bitset>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 #include <cmath>
+#include <random>
 
 using namespace std;
 

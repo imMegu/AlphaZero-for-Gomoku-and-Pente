@@ -1,5 +1,6 @@
 #pragma once
 #include "Bitboard.h"
+#include <optional>
 
 template <uint S> struct GomokuBoard : public Bitboard<S> {
 public:
@@ -30,5 +31,28 @@ public:
     b.player2 = this->player2;
     b.player = this->player;
     return b;
+  }
+
+  optional<GomokuBoard> genRandomBoard(int threshold) {
+    // Threshold should be 0-100, representing a percentage
+    if (threshold < 0 || threshold > 100)
+      throw runtime_error("Threshold should be between 0-100%.");
+
+    int possible_moves = S * S;
+    int moves_made = 0;
+
+    GomokuBoard newBoard;
+
+    while (threshold > (int)((double(moves_made) / possible_moves) * 100)) {
+      int move = rand() % (S * S);
+      bool valid = newBoard.make_move(move);
+      if (valid)
+        moves_made++;
+    }
+
+    if (newBoard.is_over())
+      return nullopt;
+
+    return newBoard;
   }
 };

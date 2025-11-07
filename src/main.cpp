@@ -132,8 +132,8 @@ void test5() { // Filled out board should still have padding zeroes.
   cout << "Win? " << (bot.get_board().is_over() ? "yes" : "no") << endl;
 }
 
-void test6() {
-  MCTS<PenteBoard<6>> bot(100000u);
+void bvb() {
+  MCTS<GomokuBoard<7>> bot(100000u);
 
   while (!bot.get_board().is_over()) {
     int move = bot.search(true);
@@ -141,7 +141,6 @@ void test6() {
     bot.get_board().printNumbered();
   }
 
-  bot.get_board().printNumbered();
   if (bot.get_board().win(0))
     cout << "Player1 won." << endl;
   else if (bot.get_board().win(1))
@@ -150,8 +149,8 @@ void test6() {
     cout << "Tie." << endl;
 }
 
-void test7() {
-  MCTS<GomokuBoard<7>> bot(100000u);
+void hvb() {
+  MCTS<PenteBoard<6>> bot(100000u);
 
   int hmove;
 
@@ -185,22 +184,8 @@ void test7() {
     cout << "Tie." << endl;
 }
 
-void play() {
-
-  MCTS<GomokuBoard<3>> bot(100000u);
-
-  string p1 = "011100000001";
-
-  string p2 = "000000000100";
-
-  bot.get_board().setPlayer1(p1);
-  bot.get_board().setPlayer2(p2);
-  bot.set_moves(5);
-  bot.get_board().printNumbered();
-}
-
 void hvh() {
-  MCTS<PenteBoard<5>> bot(100000u);
+  MCTS<PenteBoard<6>> bot(100000u);
 
   int hmove;
 
@@ -223,11 +208,34 @@ void hvh() {
   }
 }
 
+void testGenRandomBoard() {
+  PenteBoard<15> board;
+
+  for (int i = 0; i < 10; i++) {
+    int over = 0;
+    int tries = 10000;
+    for (int j = 0; j < tries; j++) {
+      auto result = board.genRandomBoard(i * 10);
+      if (result.has_value()) {
+        PenteBoard<15> randomBoard = result.value();
+      } else {
+        over++;
+      }
+    }
+    cout << "Boards that were " << i * 10 << "% filled were over " << over
+         << '/' << tries << " (" << (float(over) / tries) * 100
+         << "%) of the time." << endl;
+  }
+
+  board.genRandomBoard(101); // should throw runtime_error
+}
+
 int main() {
 
   srand(time({})); // Seed the RNG with current time
 
-  test6();
+  testGenRandomBoard();
+  // hvh();
 
   return 0;
 }
